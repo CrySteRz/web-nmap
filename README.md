@@ -1,72 +1,46 @@
-# rainmap-lite
-Rainmap Lite - Responsive web application that allows users to launch Nmap scans from their mobiles/tablets/web browsers!
-
-Unlike it's predecessor [1], Rainmap-lite does not require special services (RabbitMQ, PostgreSQL, Celery, supervisor, etc) to make it easy to install on any server. You simply need to install the Django application and add the cron polling task to set up a new scanning server. Nmap scans on the road for everyone!
-
-[1] Rainmap - https://nmap.org/rainmap/
+# Web-Nmap
+Web-Nmap is a web-based interface for the Nmap security scanner. It allows users to easily launch Nmap scans from a web browser, managing and viewing the results through a user-friendly dashboard.
 
 ## Features
-* Easily launch Nmap scans with a few clicks.
-* Responsive interface runs smoothly from your phone/tablet. 
-* Reports delivered by email in all formats.
-* View reports from your web browser.
-* Schedule scans.
-* Dozens of scanning profiles to choose from.
-* Easy to install/set up.
-* Share results with your team.
-* Compatible with Python 3 (Tested on Python 3.7.4)
+- **Scan Management**: Users can create, view, and delete Nmap scans.
+- **Scan Results**: Users can view the results of their Nmap scans, including the scan details and any vulnerabilities found.
+- **Dashboard**: Users have access to a dashboard that displays an overview of their recent scans and any critical vulnerabilities found.
+- **Scan Scheduling**: Users can schedule scans to run at specific times or intervals.
+- **Repeat Scans on Schedule**: Users can set up recurring scans to run automatically at specified intervals.
+- **Scan Profiles**: Users can create and save scan profiles with custom settings for different types of scans.
 
-This project is still in beta version. Any feedback, bug reports and PRs are greatly appreciated!
+# Installation
 
-## Demo
-https://youtu.be/3oNegHPBd3o
+## Step 1: Clone the Repository
+First, you need to clone the repository to your local machine. Open your terminal and run the following command:
+```git clone https://github.com/CrySteRz/web-nmap.git```
 
-## Documentation
-You can find all the documentation related to this project on the [Wiki](https://github.com/cldrn/rainmap-lite/wiki/ "Rainmap Lite Documentation")
+This command downloads the project files from GitHub to your computer.
 
-## Installation
+## Step 2: Navigate to the Project Directory
+After cloning, you need to move into the project directory. Run this command in your terminal:
+```cd web-nmap```
 
-1. Make sure the **python3**, **pip3**, **nmap**, **nmap-scripts** and **cron** installed on system
-2. git clone this project
-3. Rename/Copy the .env.sample to .env
-4. Prepare the environment file (.env)
-5. sh setup.sh
+This command changes your current directory to the `web-nmap` folder that you just cloned.
 
-## Environment variables (.env.sample file)
+## Step 3: Start the Docker Containers
+Finally, to get the project up and running, you'll use Docker Compose. This will start all the necessary containers for the project. Run the following command:
+```docker-compose up -d --build --scale worker=3```
 
-### Configuration for setup.sh
+- `up` tells Docker Compose to start the containers.
+- `-d` runs the containers in the background.
+- `--build` builds the images before starting the containers.
+- `--scale worker=3` starts three instances of the `worker` service.
 
-- APP_ROOT_PATH="/opt/rainmap-lite/"
-- HTTP_PORT="8000"
-- LOG_PATH="/var/log/nmaper.log"
-- ADMIN_USER="admin"
-- ADMIN_PASS="admin"
-- ADMIN_EMAIL="user@domain.org"
+After running this command, the project should be up and running on your machine.
 
-### Config for namper-cronjob.py
+# License
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0) - see the LICENSE file for details. This license allows anyone to use, modify, and distribute the project, commercially or not, provided that all modifications and derived works are also licensed under the same terms. This ensures that the project and any modifications to it remain open source, promoting transparency and community contributions.
 
-#### Please follow the format that described in [python-dotenv](https://github.com/theskumar/python-dotenv)
-
-- BASE_URL="[http://127.0.0.1:${HTTP_PORT}](http://127.0.0.1:${HTTP_PORT}/)"
-- SMTP_USER="SMTP_USER"
-- SMTP_PASS="SMTP_PASS"
-- SMTP_SERVER="SMTP_SERVER"
-- SMTP_PORT="SMTP_PORT"
-- SMTP_DOMAIN_NAME="SMTP_DOMAIN_NAME"
-
-## Screenshots
-
-* Responsive interface
-<img style="float:center;width:80%" src="https://raw.githubusercontent.com/cldrn/rainmap-lite/master/rainmap-lite-1.png" />
-* Customizable
-<img style="float:center;width:80%" src="https://raw.githubusercontent.com/cldrn/rainmap-lite/master/screenshots/rainmap-lite-2.png" />
-* Scanning profiles
-<img style="float:center;width:80%" src="https://raw.githubusercontent.com/cldrn/rainmap-lite/master/screenshots/rainmap-lite-3.png" />
-* Site Administration allows managements of users, scanning profiles and scans
-<img style="float:center;width:80%" src="https://raw.githubusercontent.com/cldrn/rainmap-lite/master/screenshots/rainmap-lite-4.png" />
-<img style="float:center;width:80%" src="https://raw.githubusercontent.com/cldrn/rainmap-lite/master/screenshots/rainmap-lite-5.png" />
-* Cron based
-<img style="float:center;width:80%" src="https://raw.githubusercontent.com/cldrn/rainmap-lite/master/screenshots/rainmap-lite-6.png" />
-* Results delivered by email
-<img style="float:center;width:80%" src="https://raw.githubusercontent.com/cldrn/rainmap-lite/master/screenshots/rainmap-lite-7.png" />
-
+# Credits
+This project is built upon the original work of [cldrn in rainmap-lite](https://github.com/cldrn/rainmap-lite/tree/master). My contributions are as follows:
+- **Scheduled Scans**: Introduced the capability to schedule scans at specific times or intervals.
+- **Repeating Scans**: Added a feature to repeat scans according to a set schedule.
+- **Docker Support**: Integrated Docker to facilitate easier deployment and management.
+- **Enhanced Scheduler**: Replaced cron jobs with a more efficient and flexible scheduler service.
+- **Simplified Setup**: Developed clearer and more user-friendly setup instructions.

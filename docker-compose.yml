@@ -1,0 +1,41 @@
+services:
+  web-nmap:
+    build: .
+    container_name: web-nmap
+    ports:
+      - "${HTTP_PORT}:${HTTP_PORT}"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - internal-network
+    command: >
+      bash -c "
+        source /app/.env &&
+        python3 manage.py makemigrations &&
+        python3 manage.py migrate &&
+        python3 manage.py loaddata nmapprofiles &&
+        python3 create_superuser.py &&
+        python3 manage.py runserver 0.0.0.0:${HTTP_PORT}
+      "
+      
+  worker:
+    build: .
+    container_name: worker
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - internal-network
+    command: >
+      bash -c "
+        source /app/.env &&
+        python3 manage.py process_tasks
+      "
+    restart: always
+
+networks:
+  internal-network:
+    external: true
